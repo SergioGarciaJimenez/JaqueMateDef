@@ -1,0 +1,1128 @@
+/* Estilos generales */
+
+* {
+  margin: 0;
+}
+
+/* Header y footer */
+header,
+footer {
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  position: relative; 
+}
+
+header {
+  height: 9vh;
+}
+
+.logoTexto {
+  padding-left: 2.2%;
+  align-items: center; 
+}
+
+div .icono {
+  width: 21%;
+  padding-right: 7.5%;
+}
+
+#logo {
+  width: 8vh;
+  height: fit-content;
+  padding-right: 5px;
+  align-self: center;
+}
+
+a {
+  display: flex;
+  flex-direction: row;
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
+}
+
+h1 {
+  margin-left: 2%;
+}
+
+#titulo,
+#tituloNegro {
+  font-family: "Besley", serif;
+  font-weight: 400;
+  font-size: 38px;
+  color: white;
+}
+
+#tituloNegro {
+  font-size: 30px;
+}
+
+/* Botones del centro del header */
+.botones {
+  position: absolute; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  display: flex;
+  gap: 12px; 
+}
+
+button {
+  background-color: #52bf90;
+  color: black;
+  font-size: 22px;
+  width: auto; 
+  max-height: 8vh;
+  padding: 7px 15px; 
+  border-radius: 5px;
+  line-height: 90%;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: #398564;
+  color: white;
+  font-weight: bolder;
+}
+
+.botonJuego {
+  margin: 5px;
+  width: 50px;
+  cursor: pointer;
+}
+
+.botonJuego:hover {
+  opacity: 0.6;
+}
+
+#exportar {
+  margin-left: 8px;
+}
+
+.reversa {
+  transform: scaleX(-1);
+}
+
+/* Botones para inicio sesion, cierre sesión, admin... */
+
+
+.headerLat {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  gap: 17.5%;
+  margin-left: auto;
+}
+
+#inicioSesion,
+#cerrarSesion,
+#usuarioPerfil,
+#admin {
+  width: 50px;
+  height: auto;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+#inicioSesion:hover,
+#cerrarSesion:hover,
+#usuarioPerfil:hover,
+#admin:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+/* Cuerpo */
+
+.cuerpo {
+  display: flex;
+  flex-direction: row;
+  height: 85vh;
+}
+
+.centro {
+  background-color: #646464;
+  width: 60%;
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Estilos para las ventanas modales */
+
+.ventanaModal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#contenidoModal,
+#promocionContenido,
+#contenidoSesion,
+#contenidoApertura,
+#contenidoProblemas,
+#colorContenido  {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  background-color: #52bf90;
+  margin: 10% auto;
+  padding: 20px;
+  border: 2px solid #888;
+  width: 80%;
+  max-width: 500px;
+  max-height: 50vh;
+  font-family: "Besley", serif;
+  font-size: 22px;
+  text-align: center;
+}
+
+  #contenidoModal p {
+    font-size: 18px;
+  }
+
+#colorContenido {
+  flex-direction: column;
+}
+
+.elegirColor {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap:15px;
+}
+
+.opciones .opcion-color {
+  cursor: pointer;
+}
+
+#contenidoApertura {
+  width: 100%;
+  height: 50%;
+  justify-content: space-evenly;
+  max-width: 50%;
+}
+
+#formularioApertura {
+  width: 70%;
+}
+
+#formularioApertura input {
+  width: 35%;
+}
+
+#formularioApertura textarea {
+  width: 75%;
+}
+
+#contenidoProblemas {
+  flex-direction: column;
+}
+
+.finJuego {
+  font-size: 38px;
+}
+
+#promocionContenido {
+  flex-direction: column;
+}
+
+#contenidoSesion,
+#contenidoApertura {
+  display: flex;
+  flex-direction: column;
+  background-color: #afaeae;
+  color: black;
+}
+
+#formInicioSesion {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 5px;
+}
+
+input,
+textarea {
+  font-family: "Besley", serif;
+}
+
+#tituloSesion {
+  font-size: 35px;
+  padding-left: 2px;
+  color: black;
+}
+
+#registrate {
+  color: #398564;
+  display: block;
+  text-align: center;
+}
+
+#registrate:hover {
+  color: white;
+}
+
+.opciones {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.opcion-promocion {
+  padding: 10px;
+  margin: 20px 12px;
+  width: 100px;
+  font-size: 2.4vh;
+  cursor: pointer;
+  font-family: "Besley", serif;
+}
+
+.opcion-promocion:hover {
+  background-color: #52bf90;
+  font-weight: normal;
+}
+
+/* Estilos para el botón de cerrar de la ventana modal */
+
+.cerrar {
+  position: absolute;
+  top: 0px;
+  right: 5px;
+  color: #000000;
+  float: right;
+  font-size: 5vh;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.cerrar:hover,
+.cerrar:focus {
+  color: grey;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Columnas */
+
+.columna {
+  background-color: #398564;
+  width: 20%;
+  font-size: 3.8vh;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-family: "Besley", serif;
+  color: white;
+  -webkit-text-stroke: 0.4px black;
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000,
+    -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+#columnaIzq {
+  justify-content: center;
+}
+
+#columnaDec {
+  padding: 25px 10px 0px;
+}
+
+.dato {
+  font-size: 24px;
+  margin-top: auto;
+  margin-bottom: auto;
+  text-align: center;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+/* Columnas en aperturas */
+
+.contenedorCol {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  gap: 0px;
+}
+
+#columnaIzqSup {
+  background-color: #398564;
+  height: 40vh;
+  width: 100%;
+  justify-content: center;
+}
+
+.filaSeleccionPeq p {
+  font-size: 22px;
+}
+
+/* Columna superior izquierda */
+
+.filaSeleccion a,
+.filaSeleccionPeq a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.7s;
+  font-size: 100%;
+  text-decoration: none;
+  color: white;
+  -webkit-text-stroke: 0.4px black;
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000,
+    -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.filaSeleccion a {
+  padding: 12.5% 0;
+}
+
+.filaSeleccionPeq {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.filaSeleccionPeq a {
+  padding: 15px 0;
+}
+
+.filaSeleccion a:hover,
+.filaSeleccionPeq a:hover {
+  cursor: pointer;
+  transform: scale(1.175);
+}
+
+div .iconoPeq {
+  width: 15%;
+  margin-right: 2.5%;
+}
+
+/* Estilos para la parte inferior izquierda en aperturas.php */
+
+#columnaIzqInf {
+  background-color: #52bf90;
+  height: 65vh;
+  width: 100%;
+  padding-top: 12px;
+}
+
+#listaAperturas {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+}
+
+.aperturas {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+  padding-top: 15%;
+  padding-left: 6%;
+}
+
+.seleccionada {
+  color: #398564;
+  font-weight: bold;
+}
+
+.aperturaPGN:hover{
+  cursor: pointer;
+  color: rgb(143, 142, 142);
+}
+
+/* Estilos para la columna derecha en aperturas.php */
+
+.iconoApertura {
+  width: 55px;
+  height: 55px;
+  padding-right: 15px;
+}
+
+.filaCol {
+  display: flex;
+  flex-direction: row;
+  transition: all 0.7s;
+  font-size: 3vh;
+  align-items: center;
+}
+
+.filaCol:hover {
+  cursor: pointer;
+}
+
+.filaCol:hover .iconoApertura {
+  transform: rotateX(360deg);
+  transition: transform 0.7s;
+}
+
+.aperturasTit,
+.textoPerfil {
+  font-size: 3vh;
+}
+
+/* Estilos para la torre entrenadora */
+
+#dialogo {
+  width: 82.5%;
+}
+
+.dialogoDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  height: 50vh;
+}
+
+#conversacion {
+  /* Al principio este elemento está oculto */
+  display: none;
+  background-color: white;
+  border-radius: 0.4em;
+  width: 70%;
+  border: 5px solid transparent;
+  border-color: grey;
+  border-bottom: 0;
+  border-right: 0;
+  margin-left: -25px;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+#textoDialogo {
+  color: black;
+  font-size: 18px;
+  font-weight: bold;
+  text-shadow: none;
+  padding-bottom: 22.5%;
+}
+
+#torre {
+  width: 47%;
+  padding-right: 5%;
+  align-self: flex-end;
+  padding-bottom: 15px;
+}
+
+/* Ventana registro */
+
+.cuerpoRegistro {
+  background-color: #398564;
+  height: 85vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.registroLogo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.cajaRegistro {
+  background-color: #afaeae;
+  width: 45%;
+  height: 68vh;
+  padding: 25px 0;
+  text-align: center;
+  font-family: "Besley", serif;
+}
+
+#jaqueCabecera {
+  width: 10%;
+  height: auto;
+}
+
+#tituloNegro {
+  color: black;
+  margin: 0;
+  font-weight: bold;
+  padding-left: 5px;
+  font-size: 34px;
+}
+
+#subtitulo {
+  font-size: 24px;
+}
+
+/* Estilos para formularios */
+#formRegistro,
+.formUsuario,
+#formBaneo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2vh;
+  font-size: 2.5vh;
+}
+
+.formUsuario {
+  gap: 20px;
+}
+
+#mensajeRegistro {
+  font-size: 24px;
+}
+
+/* Estilos para los botones del formulario input */
+
+#registrarse:hover,
+.botonPerfil:hover,
+.botonApertura:hover {
+  cursor: pointer;
+  background-color: #398564;
+  color: white;
+  font-weight: normal;
+}
+
+.input {
+  width: 35%;
+  height: 3.5vh;
+  font-size: 16px;
+}
+
+textarea {
+  resize: none;
+}
+
+input:focus,
+textarea:focus {
+  background-color: #52bf90;
+  outline: none;
+}
+
+/* Perfil usuario */
+
+select {
+  width: 20%;
+  border: none;
+  font-size: 18px;
+  font-family: "Besley", serif;
+}
+
+#piezaFav {
+  background-color: #398564;
+}
+
+option:checked {
+  background-color: #398564;
+}
+
+option {
+  background-color: #52bf90;
+}
+
+.botonPerfil, .botonApertura {
+  background-color: #52bf90;
+  font-size: 2.6vh;
+  width: fit-content;
+  margin-top: 15px;
+  padding: 8px;
+  border-radius: 15px;
+  font-family: "Besley", serif;
+}
+
+#filaBoton {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+/* Footer */
+
+footer {
+  height: 6vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8vh;
+  letter-spacing: 2px;
+}
+
+.copy {
+  color: white;
+  font-family: "Brygada 1918", serif;
+}
+
+/* Colocación y estilos del tablero, casillas, pieza */
+
+#contenedorTablero {
+  width: 100%;
+  height: 100%;
+  max-height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#tablero {
+  width: 65%;
+  height: auto;
+}
+
+/* Centro cada casilla y hago que ajuste la pieza el tamaño al contenedor*/
+.square-55d63 {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  object-fit: contain;
+}
+
+/* Pongo tamaño máximo de peones para que sean algo más pequeños */
+.piece-417db[data-piece="wP"],
+.piece-417db[data-piece="bP"] {
+  max-width: 80%;
+  max-height: 80%;
+}
+
+/* Lo mismo para las piezas para dejar algo de margen en las casillas */
+.piece-417db {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+/* Responsive ancho*/
+
+@media screen and (max-width: 1300px) {
+  #inicioSesion,
+  #cerrarSesion,
+  #usuarioPerfil,
+  #admin {
+    width: 45px;
+    height: 45px;
+  }
+
+  .filaSeleccion p {
+    font-size: 3vh;
+  }
+
+  h3 {
+    font-size: 80%;
+  }
+  .dato {
+    font-size: 18px;
+  }
+
+  #cambios {
+    padding: 8px;
+    font-size: 20px
+  }
+
+  .textoPerfil {
+    font-size: 22px;
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  * {
+    font-size: 85%;
+  }
+
+  #logo {
+    width: 7vh;
+  }
+
+  #titulo {
+    font-size: 32px;
+  }
+
+  .filaSeleccion p {
+    font-size: 2.5vh;
+  }
+
+  button {
+    font-size: 18px;
+    line-height: 75%;
+  }
+
+  .botonJuego {
+    width: 40px;
+  }
+
+  #inicioSesion,
+  #cerrarSesion,
+  #usuarioPerfil,
+  #admin{
+    width: 40px;
+    height: 40px;
+  }
+
+  h3 {
+    font-size: 70%;
+  }
+
+  .dato {
+    font-size: 15px;
+    padding: 0 20px;
+  }
+
+  #textoDialogo {
+    font-size: 15px;
+  }
+
+  .finJuego {
+    font-size: 35px;
+  }
+
+  .aperturasTit {
+    font-size: 2.2vh;
+  }
+
+  select {
+    width: 30%;
+    font-size: 16px;
+  }
+  
+  #cambios {
+    padding: 8px;
+    font-size: 16px
+  }
+
+  #subtitulo {
+    font-size: 20px;
+  }
+
+  .textoPerfil {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  * {
+    font-size: 82%;
+  }
+
+  h1 {
+    margin-left: 0;
+  }
+
+  #logo {
+    width: 6vh;
+  }
+
+  #titulo {
+    font-size: 26px;
+  }
+
+  #inicioSesion,
+  #cerrarSesion,
+  #usuarioPerfil,
+  #admin{
+    width: 35px;
+    height: 35px;
+  }
+
+  .botones {
+    gap: 5px; 
+  }
+
+  .botonJuego {
+    width: 35px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 5px;
+    line-height: 50%;
+  }
+
+  .headerLat {
+    gap: 12.5%;
+  }
+
+  .filaSeleccion p {
+    font-size: 1.8vh;
+  }
+
+  .filaSeleccionPeq p {
+    font-size: 18px;
+  }
+
+  h3 {
+    font-size: 50%;
+  }
+
+  .dato {
+    font-size: 14px;
+    padding: 0 20px;
+  }
+
+  .iconoApertura {
+    width: 45px;
+    height: 45px;
+    padding-right: 10px;
+  }
+
+  .aperturasTit {
+    font-size: 1.8vh;
+  }
+
+  #contenidoModal p {
+    font-size: 18px;
+  }
+
+  .finJuego {
+    font-size: 28px;
+  }
+
+  .conversacion {
+    width: 60%;
+  }
+  #textoDialogo {
+    font-size: 13px;
+  }
+
+  #textoDialogo {
+    font-size: 13px;
+  }
+
+  select {
+    width: 35%;
+    font-size: 15px;
+  }
+  
+  #cambios {
+    padding: 6px;
+    font-size: 13px
+  }
+
+  #tituloNegro {
+    font-size: 24px;
+  }
+
+  #subtitulo {
+    font-size: 18px;
+  }
+
+  #filaBoton {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .textoPerfil {
+    font-size: 14px;
+  }
+
+  .copy {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  * {
+    font-size: 75%;
+  }
+
+  #titulo {
+    font-size: 18px;
+  }
+
+  #inicioSesion,
+  #cerrarSesion,
+  #usuarioPerfil, 
+  #admin{
+    width: 32px;
+    height: 32px;
+  }
+
+  button {
+    font-size: 12px;
+    padding: 5px;
+  }
+
+  .botonJuego {
+    width: 25px;
+  }
+
+  .headerLat {
+    gap: 10%;
+  }
+
+  .filaSeleccion p {
+    font-size: 1.5vh;
+  }
+
+  .filaSeleccionPeq p {
+    font-size: 14px;
+  }
+
+  .dato {
+    font-size: 13px;
+    padding: 0 15px;
+  }
+
+  .iconoApertura {
+    width: 33px;
+    height: 33px;
+    padding-right: 7px;
+  }
+
+  .aperturasTit {
+    font-size: 1.8vh;
+  }
+
+  #contenidoModal p {
+    font-size: 15px;
+  }
+
+  .conversacion {
+    width: 40%;
+  }
+
+  #textoDialogo {
+    font-size: 12px;
+  }
+
+  #jaqueCabecera {
+    display: none;
+  }
+
+  #tituloNegro {
+    font-size: 24px;
+  }
+
+  #subtitulo {
+    font-size: 17px;
+  }
+
+  .copy {
+    font-size: 13px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  button {
+    font-size: 10px;
+  }  
+}
+
+/* Responsive por altura */
+@media screen and (max-height: 550px) and (max-width: 650px) {
+
+  #logo {
+    width: 5vh;
+  }
+
+  #titulo {
+    font-size: 18px;
+  }
+
+  #inicioSesion,
+  #cerrarSesion,
+  #usuarioPerfil,
+  #admin {
+    width: 20px;
+    height: 20px;
+  }
+
+  #jaqueCabecera {
+    display: none;
+  }
+  
+  .botonJuego {
+    width: 25px;
+  }
+
+  button {
+    font-size: 12px;
+    padding: 5px;
+  }
+
+  .filaSeleccion p {
+    font-size: 2.5vh;
+  }
+
+  .dato {
+    font-size: 12px;
+    padding: 0 10px;
+  }
+
+  .iconoApertura {
+    width: 30px;
+    height: 30px;
+    padding-right: 5px;
+  }
+
+  .aperturasTit {
+    font-size: 2.2vh;
+  }
+
+  #contenidoModal p {
+    font-size: 12px;
+  }
+
+  .finJuego {
+    font-size: 25px;
+  }
+
+  #torre {
+    width: 80px;
+  }
+
+  .conversacion {
+    width: 35%;
+  }
+
+  #textoDialogo {
+    font-size: 10px;
+  }
+
+  #tituloNegro {
+    font-size: 24px;
+  }
+
+  #subtitulo {
+    font-size: 17px;
+  }
+
+  .copy {
+    font-size: 10px;
+  }
+
+}
+
+@media screen and (max-height: 570px) {
+
+#tablero {
+  height: 100%; 
+  max-width: 75vh; 
+}
+
+#titulo {
+font-size: 24px;
+}
+
+#inicioSesion,
+#cerrarSesion,
+#usuarioPerfil,
+#admin {
+  width: 25px;
+  height: 25px;
+}
+}
