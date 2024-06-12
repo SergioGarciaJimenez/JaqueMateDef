@@ -5,8 +5,41 @@ $(document).ready(function () {
   var movimientos;
   var pgn;
 
-  // Función para mostrar los mensajes en la ventana modal para aperturas
+  // La variable que guarda el id de usuario
+  var idUsuario = $('script[src="js/aperturas.js"]').attr('idUsuario');
 
+  // Función para ajustar el tamaño del contenedor del tablero y del tablero según se reajusta la ventana al contenedor
+  function adjustBoardSize() {
+    // Dejo un 90% del contenedor de ancho para que quede algo de margen
+    var containerWidth = $("#contenedorTablero").width() * 0.9;
+    // El alto es un 80% de la ventana
+    var containerHeight = $(window).height() * 0.8;
+
+    // Determinar el tamaño del tablero basado en el tamaño del contenedor
+    var size = Math.min(containerWidth, containerHeight);
+
+    // Ajustamos el tamaño del tablero
+    $("#tablero").css({
+      width: size + "px",
+      height: size + "px",
+    });
+
+    // Verificamos si board está definido y tiene el método resize
+    if (board && typeof board.resize === 'function') {
+      // Redimensionamos el tablero acorde a los nuevos tamaños
+      board.resize();
+    } else {
+      // Linea de debug
+      console.error('El tablero no está definido o no tiene un método resize.');
+    }
+  }
+
+  // Hacemos el tablero dinámicamente responsive ancho y alto según se actualiza la ventana
+  $(window).resize(function () {
+    adjustBoardSize();
+  });
+
+  // Función para mostrar los mensajes en la ventana modal para aperturas
   function mostrarMensajeModal(mensaje) {
     $("#textoModal").text(mensaje);
     $("#ventanaModal").show();
@@ -35,52 +68,49 @@ $(document).ready(function () {
     }
   }
 
-    // La variable que guarda el id de usuario
-    var idUsuario = $('script[src="js/aperturas.js"]').attr('idUsuario');
+  // Función para confirmar el borrado
+  function confirmarBorrar(mensaje, callback) {
+    mostrarMensajeModal(mensaje);
+    $("#contenidoModal").append('<div class="botonesFila"><button id="confirmar" class="botonPerfil">Confirmar</button><button id="cancelar" class="botonPerfil">Cancelar</button><div>');
 
-    // Función para confirmar el borrado
-    function confirmarBorrar(mensaje, callback) {
-        mostrarMensajeModal(mensaje);
-        $("#contenidoModal").append('<div class="botonesFila"><button id="confirmar" class="botonPerfil">Confirmar</button><button id="cancelar" class="botonPerfil">Cancelar</button><div>');
-        
-        // Si confirmamos el callback es true, borrarmos la apertura y cerramos la modal
-        $("#confirmar").on("click", function() {
-            callback(true);
-            $("#ventanaModal").hide();
-            $("#confirmar, #cancelar").remove();
-        });
-        // Si cancelamos se cierra la ventana
-        $("#cancelar").on("click", function() {
-            callback(false);
-            $("#ventanaModal").hide();
-            $("#confirmar, #cancelar").remove();
-        });
-    }
-
-    // Manejar el borrado de una apertura
-    $('#aperturaBorrar').on('click', function() {
-        var aperturaSeleccionada = $('.aperturaPGN.seleccionada');
-        // Si no hay apertura seleccionada, mostramos el mensaje de error
-        if (aperturaSeleccionada.length === 0) {
-            mostrarMensajeModal('Por favor selecciona una apertura para borrar.');
-            return;
-        }
-        // Variable que guarda el nombre de la apertura seleccionada
-        var nombreApertura = aperturaSeleccionada.text();
-
-        confirmarBorrar('¿Estás seguro de que deseas borrar esta apertura?', function(confirmado) {
-            if (confirmado) {
-              // Mostramos el mensaje correspondiente y actualizamos tras dos segundos
-                $.post('aperturas.php', { nombreApertura: nombreApertura, idUsuario: idUsuario }, function(response) {
-                    mostrarMensajeModal('Apertura borrada con éxito.');
-                    setTimeout(function(){location.reload()}, 1500);
-                }).fail(function() {
-                  // Mensaje genérico de eror
-                    mostrarMensajeModal('Error al borrar la apertura, inténtalo más tarde.');
-                });
-            }
-        });
+    // Si confirmamos el callback es true, borrarmos la apertura y cerramos la modal
+    $("#confirmar").on("click", function () {
+      callback(true);
+      $("#ventanaModal").hide();
+      $("#confirmar, #cancelar").remove();
     });
+    // Si cancelamos se cierra la ventana
+    $("#cancelar").on("click", function () {
+      callback(false);
+      $("#ventanaModal").hide();
+      $("#confirmar, #cancelar").remove();
+    });
+  }
+
+  // Manejar el borrado de una apertura
+  $('#aperturaBorrar').on('click', function () {
+    var aperturaSeleccionada = $('.aperturaPGN.seleccionada');
+    // Si no hay apertura seleccionada, mostramos el mensaje de error
+    if (aperturaSeleccionada.length === 0) {
+      mostrarMensajeModal('Por favor selecciona una apertura para borrar.');
+      return;
+    }
+    // Variable que guarda el nombre de la apertura seleccionada
+    var nombreApertura = aperturaSeleccionada.text();
+
+    confirmarBorrar('¿Estás seguro de que deseas borrar esta apertura?', function (confirmado) {
+      if (confirmado) {
+        // Mostramos el mensaje correspondiente y actualizamos tras dos segundos
+        $.post('aperturas.php', { nombreApertura: nombreApertura, idUsuario: idUsuario }, function (response) {
+          mostrarMensajeModal('Apertura borrada con éxito.');
+          setTimeout(function () { location.reload() }, 1500);
+        }).fail(function () {
+          // Mensaje genérico de eror
+          mostrarMensajeModal('Error al borrar la apertura, inténtalo más tarde.');
+        });
+      }
+    });
+  });
 
   // Mostrar la lista de aperturas
   $("#misAperturas").click(function () {
@@ -94,10 +124,10 @@ $(document).ready(function () {
       aperturas.forEach(function (apertura) {
         $("#listaAperturas").append(
           '<p class="aperturaPGN" data-pgn="' +
-            apertura.PGN +
-            '">' +
-            apertura.nombreApertura +
-            "</p>"
+          apertura.PGN +
+          '">' +
+          apertura.nombreApertura +
+          "</p>"
         );
       });
     } else {
@@ -291,35 +321,10 @@ $(document).ready(function () {
     },
   };
 
-  
-// Función para ajustar el tamaño del contenedor del tablero y del tablero según se reajusta la ventana al contenedor
-
-function adjustBoardSize() {
-  // Dejo un 90% del contenedor de ancho para que quede algo de margen
-  var containerWidth = $("#contenedorTablero").width() * 0.9;
-  // El alto es un 80% de la ventana
-  var containerHeight = $(window).height() * 0.8;
-
-  // Determinar el tamaño del tablero basado en el tamaño del contenedor
-  var size = Math.min(containerWidth, containerHeight);
-
-  // Ajustamos el tamaño del tablero
-  $("#tablero").css({
-    width: size + "px",
-    height: size + "px",
-  });
-  // Redimensionamos el tablero acorde a los nuevos tamaños
-  board.resize();
-}
-
-// Hacer el tablero dinámicamente responsive ancho y alto según se actualiza la ventana
-$(window).resize(function () {
-  adjustBoardSize();
-});
-// Ajustar el tamaño del tablero al cargar la página
-adjustBoardSize();
-
   var board = ChessBoard("tablero", config);
+
+  // Ajustar el tamaño del tablero al cargar la página
+  adjustBoardSize();
 
   // Función para seleccionar el color
   $(".botonApertura").click(function () {
