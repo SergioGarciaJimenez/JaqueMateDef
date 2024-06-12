@@ -98,7 +98,7 @@ $_POST = [];
     rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Brygada+1918:ital,wght@0,400..700;1,400..700&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css?<?php echo time(); ?>" />
   <!-- Script de ventana modal -->
   <script src="js/modal.js"></script>
   <!-- Script para validar registro -->
