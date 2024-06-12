@@ -66,7 +66,7 @@ $conn->close();
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Besley:ital,wght@0,400..900;1,400..900&family=Kdam+Thmor+Pro&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Brygada+1918:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css?<?php echo time(); ?>" />
   <!-- Importo JQuery -->
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
   <!-- Js para el inicio y cierre de sesión -->
