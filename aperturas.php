@@ -67,7 +67,7 @@ if (isset($_POST['titApertura']) && isset($_POST['pgnText'])) {
 
     if ($count > 0) {
       // Si ya existe una apertura con ese nombre para el usuario, lanzamos un mensaje de error
-      $mensajeApertura = "¡Ya tienes una apertura con este nombre! Elige otro.";
+      $_SESSION['mensajeApertura'] = "¡Ya tienes una apertura con este nombre! Elige otro.";
     } else {
       // Si no hay ninguna apertura con esa nomenclatura, la insertamos normalmente
       $sql = "INSERT INTO Aperturas (idUsuario, nombreApertura, PGN) VALUES (?, ?, ?)";
@@ -79,18 +79,20 @@ if (isset($_POST['titApertura']) && isset($_POST['pgnText'])) {
         $stmt->execute();
         $stmt->close();
         // Mensaje para la ventana modal
-        $mensajeApertura = "Apertura guardada con éxito.";
+        $_SESSION['mensajeApertura'] = "Apertura guardada con éxito.";
       } else {
         // En caso de error
-        $mensajeApertura = "Error al guardar la apertura, inténtalo más tarde.";
+        $_SESSION['mensajeApertura'] = "Error al guardar la apertura, inténtalo más tarde.";
       }
     }
   } else {
     // En caso de error al preparar la consulta de verificación
-    $mensajeApertura = "Error al verificar la apertura, inténtalo más tarde.";
+    $_SESSION['mensajeApertura'] = "Error al verificar la apertura, inténtalo más tarde.";
   }
-  // Cerramos la conexión
-  $conn->close();
+
+  // Redirige a la misma página para limpiar el formulario y mostrar el mensaje
+  header("Location: aperturas.php");
+  exit();
 }
 
 // Si hay una solicitud para borrar una apertura
@@ -121,6 +123,12 @@ if (isset($_POST['nombreApertura']) && isset($_POST['idUsuario'])) {
   }
   // Cerramos la conexión
   $conn->close();
+}
+
+// Obtener el mensaje de la sesión si existe
+if (isset($_SESSION['mensajeApertura'])) {
+  $mensajeApertura = $_SESSION['mensajeApertura'];
+  unset($_SESSION['mensajeApertura']); // Limpiar el mensaje después de obtenerlo
 }
 
 // Vaciamos los datos del formulario
@@ -251,7 +259,7 @@ $_POST = [];
         <div id="ventanaModal" class="ventanaModal">
           <div id="contenidoModal">
             <span class="cerrar">&times;</span>
-            <p id="textoModal"></p>
+            <p id="textoModal"><?php echo $mensajeApertura ?></p>
           </div>
         </div>
         <!-- Ventana modal para seleccionar color a practicar en la apertura -->
@@ -332,5 +340,16 @@ $_POST = [];
   <footer>
     <p class="copy">Jaque Mate 2024 &#169; | Sergio García Jiménez</p>
   </footer>
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var mensajeApertura = <?php echo json_encode($mensajeApertura); ?>;
+    if (mensajeApertura) {
+      var modal = document.getElementById('ventanaModal');
+      var textoModal = document.getElementById('textoModal');
+      textoModal.textContent = mensajeApertura;
+      modal.style.display = "block";
+    }
+  });
+</script>
 </body>
 </html>
