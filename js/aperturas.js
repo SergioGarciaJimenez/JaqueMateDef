@@ -291,6 +291,34 @@ $(document).ready(function () {
     },
   };
 
+  
+// Función para ajustar el tamaño del contenedor del tablero y del tablero según se reajusta la ventana al contenedor
+
+function adjustBoardSize() {
+  // Dejo un 90% del contenedor de ancho para que quede algo de margen
+  var containerWidth = $("#contenedorTablero").width() * 0.9;
+  // El alto es un 80% de la ventana
+  var containerHeight = $(window).height() * 0.8;
+
+  // Determinar el tamaño del tablero basado en el tamaño del contenedor
+  var size = Math.min(containerWidth, containerHeight);
+
+  // Ajustamos el tamaño del tablero
+  $("#tablero").css({
+    width: size + "px",
+    height: size + "px",
+  });
+  // Redimensionamos el tablero acorde a los nuevos tamaños
+  board.resize();
+}
+
+// Hacer el tablero dinámicamente responsive ancho y alto según se actualiza la ventana
+$(window).resize(function () {
+  adjustBoardSize();
+});
+// Ajustar el tamaño del tablero al cargar la página
+adjustBoardSize();
+
   var board = ChessBoard("tablero", config);
 
   // Función para seleccionar el color
