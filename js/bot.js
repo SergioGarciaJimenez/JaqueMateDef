@@ -60,13 +60,19 @@ function realizarMovimientoBot() {
           board.position(juegoAjedrez.fen()); // Actualizamos el tablero
         } 
       } else {
-        // Si no hay movimientos de captura ni de jaque disponibles, realiza un movimiento aleatorio
+        // Si no tiene estos disponibles, realiza un movimiento aleatorio
         var movimientoAleatorio =
         movimientos[Math.floor(Math.random() * movimientos.length)];
         juegoAjedrez.move(movimientoAleatorio);
         document.getElementById("mover").play();
         board.position(juegoAjedrez.fen()); // Actualizamos el tablero
       }
+        // Si no hay ninguna posibilidad, realiza un movimiento aleatorio
+        var movimientoAleatorio =
+        movimientos[Math.floor(Math.random() * movimientos.length)];
+        juegoAjedrez.move(movimientoAleatorio);
+        document.getElementById("mover").play();
+        board.position(juegoAjedrez.fen()); // Actualizamos el tablero
     }
     // Lógica para cada causística según lo que provoque el movimiento del bot
    comprobarFinJuego();
