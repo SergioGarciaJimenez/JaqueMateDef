@@ -829,6 +829,10 @@ footer {
     font-size: 26px;
   }
 
+  #tituloSesion {
+    font-size: 30px;
+  }
+
   #inicioSesion,
   #cerrarSesion,
   #usuarioPerfil,
@@ -1007,6 +1011,10 @@ footer {
     font-size: 24px;
   }
 
+  #tituloSesion {
+    font-size: 22px;
+  }
+
   #subtitulo {
     font-size: 17px;
   }
@@ -1116,6 +1124,10 @@ footer {
 
 #titulo {
 font-size: 24px;
+}
+
+#contenidoModal p {
+  font-size: 12px;
 }
 
 #inicioSesion,
