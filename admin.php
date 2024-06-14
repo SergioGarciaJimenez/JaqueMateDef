@@ -32,10 +32,14 @@ if (isset($_SESSION['admin'])) {
   $result = $conn->query($sql);
   $usuarioNuevo = $result->fetch_assoc()['nombreUsuario'];
 
-  // Obtener apertura más jugada
-  $sql = "SELECT nombreApertura, COUNT(*) AS cantidad FROM aperturas GROUP BY nombreApertura ORDER BY cantidad DESC LIMIT 1";
-  $result = $conn->query($sql);
-  $aperturaJugada = $result->fetch_assoc()['nombreApertura'];
+// Obtener apertura más jugada
+$sql = "SELECT nombreApertura, COUNT(*) AS cantidad FROM aperturas GROUP BY nombreApertura ORDER BY cantidad DESC LIMIT 1";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    $aperturaJugada = $result->fetch_assoc()['nombreApertura'];
+} else {
+    $aperturaJugada = "Ninguna";
+}
 
   // Si se ha enviado el formulario para banear usuario
   if (isset($_POST['banear'])) {
@@ -60,7 +64,7 @@ if (isset($_SESSION['admin'])) {
       $stmt->execute();
       $stmt->close();
 
-      $msg = "Usuario baneado";
+      $msg = "Usuario baneado.";
 
     }
   }
@@ -85,10 +89,10 @@ if (isset($_SESSION['admin'])) {
     $stmt->execute();
     $stmt->close();
 
-    $msg = "Usuario desbaneado";
+    $msg = "Usuario desbaneado.";
     }
     else {
-      $msg = "El usuario no está en la lista de baneados";
+      $msg = "El usuario no está en la lista de baneados.";
     }
   }
 } else {
@@ -178,3 +182,4 @@ $conn->close();
 </body>
 
 </html>
+
