@@ -1,18 +1,10 @@
 // Iniciamos nueva partida
 var juegoAjedrez = new Chess();
 
-// Variable para saber si el bot está pensando
-var botPensando = false;
-
 // Función de la lógica de movimientos del bot
 function realizarMovimientoBot() {
-  // Asegurarse de que solo se ejecute si no está pensando
-  if (botPensando) return;
-
-  botPensando = true;
-
   // Comprueba que es el turno del ordenador (negras)
-  if (juegoAjedrez.turn() === "b" && juegoAjedrez.game_over() !== true) {
+  if (juegoAjedrez.turn() === "b" && !juegoAjedrez.game_over()) {
     var movimientos = juegoAjedrez.moves(); // Obtenemos todos los movimientos legales
     var movimientoCaptura = movimientos.filter(function (move) {
       return move.includes("x"); // Comprobamos si el movimiento es una captura
@@ -20,40 +12,31 @@ function realizarMovimientoBot() {
 
     if (movimientoCaptura.length > 0) {
       // Si hay uno o varios movimientos de captura, elige uno de ellos al azar
-      var movimientoCaptura =
+      var movimientoCapturaElegido =
         movimientoCaptura[Math.floor(Math.random() * movimientoCaptura.length)];
-      juegoAjedrez.move(movimientoCaptura);
+      juegoAjedrez.move(movimientoCapturaElegido);
       document.getElementById("comer").play(); // Sonido de captura
-      board.position(juegoAjedrez.fen()); // Actualizamos el tablero
     } else {
       // Si no hay movimientos de captura disponibles, busca movimientos que pongan en jaque al rey oponente
       var movimientosJaque = movimientos.filter(function (move) {
-        // Filtra los movimientos que pongan al rey del oponente en jaque
         juegoAjedrez.move(move); // Intenta hacer el movimiento
-        // Comprueba si el movimiento pone en jaque al rey
-        var jaque = juegoAjedrez.in_check();
-        // Si no prueba otro
-        juegoAjedrez.undo();
-        // Devolvemos el movimiento, si es que lo hay
+        var jaque = juegoAjedrez.in_check(); // Comprueba si el movimiento pone en jaque al rey
+        juegoAjedrez.undo(); // Deshace el movimiento
         return jaque;
       });
 
-      // Filtramos los movimientos de jaque que no dejan la pieza que da el jaque en peligro
       if (movimientosJaque.length > 0) {
         var movimientosJaqueSeguros = movimientosJaque.filter(function (move) {
           juegoAjedrez.move(move); // Hace el movimiento
           var seguro = true;
           var movimientosOponente = juegoAjedrez.moves({ verbose: true });
-          // Si algún movimiento del oponente nos captura, no es válido
           for (var i = 0; i < movimientosOponente.length; i++) {
             if (movimientosOponente[i].captured) {
               seguro = false;
               break;
             }
           }
-          // Probamos todos
           juegoAjedrez.undo();
-          // Devolvemos el movimiento, si es que lo hay
           return seguro;
         });
 
@@ -64,74 +47,29 @@ function realizarMovimientoBot() {
               Math.floor(Math.random() * movimientosJaqueSeguros.length)
             ];
           juegoAjedrez.move(movimientoJaque);
-          board.position(juegoAjedrez.fen()); // Actualizamos el tablero
-        } 
+          document.getElementById("jaque").play(); // Reproduce sonido de jaque
+        } else {
+          realizarMovimientoAleatorio(movimientos);
+        }
       } else {
-        // Si no hay movimientos de captura ni de jaque disponibles, realiza un movimiento aleatorio
-        var movimientoAleatorio =
-          movimientos[Math.floor(Math.random() * movimientos.length)];
-        juegoAjedrez.move(movimientoAleatorio);
-        document.getElementById("mover").play();
-        board.position(juegoAjedrez.fen()); // Actualizamos el tablero
+        realizarMovimientoAleatorio(movimientos);
       }
     }
-
-    // Lógica para cada causística según lo que provoque el movimiento del bot
-    if (juegoAjedrez.in_checkmate()) {
-      // Si hay jaque mate, muestra un aviso de jaque mate y sonido fin de partida
-      document.getElementById("fin").play();
-      // Actualizo con el texto correspondiente
-      document.getElementById("textoModal").innerHTML =
-        "<span class = 'finJuego'>¡Jaque Mate!</span>";
-      // Y muestro la ventana modal
-      funcionAbrirModal();
-    } else if (juegoAjedrez.in_stalemate()) {
-      // Si hay rey ahogado, tablas y sonido fin de partida
-      document.getElementById("fin").play();
-      // Actualizo con el texto correspondiente
-      document.getElementById("textoModal").innerHTML =
-        "<span class = 'finJuego'>¡Tablas por rey ahogado!</span>";
-      // Y muestro la ventana modal
-      funcionAbrirModal();
-    }
-    // Comprobamos posibles tablas
-    else if (
-      juegoAjedrez.in_draw() ||
-      juegoAjedrez.in_threefold_repetition() ||
-      juegoAjedrez.insufficient_material()
-    ) {
-      // Si el juego está empatado por rey ahogado, repeticiones o similar
-      document.getElementById("fin").play();
-      // Actualizco con el texto correspondiente para el tipo de tablas
-      if (juegoAjedrez.in_threefold_repetition()) {
-        document.getElementById("textoModal").innerHTML =
-          "<span class = 'finJuego'>¡Tablas por repetición!</span>";
-      } else if (juegoAjedrez.insufficient_material()) {
-        document.getElementById("textoModal").innerHTML =
-          "<span class = 'finJuego'>¡Tablas por insuficiencia de material!</span>";
-      } else if (juegoAjedrez.in_draw()) {
-        document.getElementById("textoModal").innerHTML =
-          "<span class = 'finJuego'>¡Tablas por 50 movimientos sin captura ni avance de peón!</span>";
-      } 
-      // Muestro el aviso en la ventana modal
-      funcionAbrirModal();
-    } else if (juegoAjedrez.in_check()) {
-      // Sonido por jaque
-      document.getElementById("jaque").play();
-    }
-
-    // Bot ha terminado de pensar
-    botPensando = false;
+    board.position(juegoAjedrez.fen()); // Actualizamos el tablero
+    comprobarFinJuego(); // Lógica para cada causística según lo que provoque el movimiento del bot
   }
+}
+
+// Función para realizar un movimiento aleatorio
+function realizarMovimientoAleatorio(movimientos) {
+  var movimientoAleatorio = movimientos[Math.floor(Math.random() * movimientos.length)];
+  juegoAjedrez.move(movimientoAleatorio);
+  document.getElementById("mover").play();
 }
 
 // Función para que el bot realice un movimiento después de unos momentos
 function realizarMovimientoConRetraso() {
-  setTimeout(function () {
-    if (juegoAjedrez.turn() === "b" && !juegoAjedrez.game_over()) {
-      realizarMovimientoBot();
-    }
-  }, 1500); // El bot espera 1.5 segs para simular pensar
+  setTimeout(realizarMovimientoBot, 1500); // El bot espera 1.5 segs para simular pensar
 }
 
 // Actualiza con la nueva posición tras mover la pieza
@@ -251,39 +189,10 @@ var config = {
       }
     } else {
       // Lógica para cada causística según lo que provoque el movimiento del jugador
-      if (juegoAjedrez.in_checkmate()) {
-        // Si hay jaque mate, muestra un aviso de jaque mate y sonido fin de partida
-        document.getElementById("fin").play();
-        // Actualizo el texto correspondiente
-        document.getElementById("textoModal").innerHTML =
-          "<span class = 'finJuego'>¡Jaque Mate!</span>";
-        // Y muestro la ventana modal
-        funcionAbrirModal();
-      } else if (juegoAjedrez.in_stalemate()) {
-        // Si hay rey ahogado, tablas y sonido fin de partida
-        document.getElementById("fin").play();
-        // Actualizo el texto correspondiente
-        document.getElementById("textoModal").innerHTML =
-          "<span class = 'finJuego'>¡Tablas por rey ahogado!</span>";
-        // Y muestro la ventana modal
-        funcionAbrirModal();
-      } else if (
-        juegoAjedrez.in_draw() ||
-        juegoAjedrez.in_threefold_repetition()
-      ) {
-        // Si el juego está empatado por rey ahogado, repetición, etc.
-        document.getElementById("fin").play();
-        // Añade el texto correspondiente para el tipo de empate
-        if (juegoAjedrez.in_threefold_repetition()) {
-          document.getElementById("textoModal").innerHTML =
-            "<span class = 'finJuego'>¡Tablas por repetición!</span>";
-        } else if (juegoAjedrez.in_draw()) {
-          document.getElementById("textoModal").innerHTML =
-            "<span class = 'finJuego'>¡Tablas por 50 movimientos sin captura ni avance de peón!</span>";
-        }
-        // Y muestro la ventana modal
-        funcionAbrirModal();
-      } else if (juegoAjedrez.in_check()) {
+      comprobarFinJuego();
+      
+      // Reproduzco el sonido correspondiente al movimiento
+      if (juegoAjedrez.in_check()) {
         // Sonido por jaque
         document.getElementById("jaque").play();
       } else if (movimiento.captured) {
