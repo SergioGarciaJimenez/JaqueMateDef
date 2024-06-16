@@ -1,14 +1,16 @@
 // Iniciamos nueva partida
 var juegoAjedrez = new Chess();
-var board = Chessboard('board', {
-  draggable: true,
-  position: 'start',
-  onDrop: onDrop,
-  onSnapEnd: onSnapEnd
-});
+
+// Variable para saber si el bot está pensando
+var botPensando = false;
 
 // Función de la lógica de movimientos del bot
 function realizarMovimientoBot() {
+  // Asegurarse de que solo se ejecute si no está pensando
+  if (botPensando) return;
+
+  botPensando = true;
+
   // Comprueba que es el turno del ordenador (negras)
   if (juegoAjedrez.turn() === "b" && juegoAjedrez.game_over() !== true) {
     var movimientos = juegoAjedrez.moves(); // Obtenemos todos los movimientos legales
@@ -117,12 +119,24 @@ function realizarMovimientoBot() {
       // Sonido por jaque
       document.getElementById("jaque").play();
     }
+
+    // Bot ha terminado de pensar
+    botPensando = false;
   }
 }
 
 // Función para que el bot realice un movimiento después de unos momentos
 function realizarMovimientoConRetraso() {
-  setTimeout(realizarMovimientoBot, 1500); // El bot espera 1.5 segs para simular pensar
+  setTimeout(function () {
+    if (juegoAjedrez.turn() === "b" && !juegoAjedrez.game_over()) {
+      realizarMovimientoBot();
+    }
+  }, 1500); // El bot espera 1.5 segs para simular pensar
+}
+
+// Actualiza con la nueva posición tras mover la pieza
+function onSnapEnd() {
+  board.position(juegoAjedrez.fen());
 }
 
 // Configuración del tablero
@@ -237,10 +251,39 @@ var config = {
       }
     } else {
       // Lógica para cada causística según lo que provoque el movimiento del jugador
-        comprobarFinJuego();
-      
-      // Reproduzco el sonido correspondiente al movimiento
-      if (juegoAjedrez.in_check()) {
+      if (juegoAjedrez.in_checkmate()) {
+        // Si hay jaque mate, muestra un aviso de jaque mate y sonido fin de partida
+        document.getElementById("fin").play();
+        // Actualizo el texto correspondiente
+        document.getElementById("textoModal").innerHTML =
+          "<span class = 'finJuego'>¡Jaque Mate!</span>";
+        // Y muestro la ventana modal
+        funcionAbrirModal();
+      } else if (juegoAjedrez.in_stalemate()) {
+        // Si hay rey ahogado, tablas y sonido fin de partida
+        document.getElementById("fin").play();
+        // Actualizo el texto correspondiente
+        document.getElementById("textoModal").innerHTML =
+          "<span class = 'finJuego'>¡Tablas por rey ahogado!</span>";
+        // Y muestro la ventana modal
+        funcionAbrirModal();
+      } else if (
+        juegoAjedrez.in_draw() ||
+        juegoAjedrez.in_threefold_repetition()
+      ) {
+        // Si el juego está empatado por rey ahogado, repetición, etc.
+        document.getElementById("fin").play();
+        // Añade el texto correspondiente para el tipo de empate
+        if (juegoAjedrez.in_threefold_repetition()) {
+          document.getElementById("textoModal").innerHTML =
+            "<span class = 'finJuego'>¡Tablas por repetición!</span>";
+        } else if (juegoAjedrez.in_draw()) {
+          document.getElementById("textoModal").innerHTML =
+            "<span class = 'finJuego'>¡Tablas por 50 movimientos sin captura ni avance de peón!</span>";
+        }
+        // Y muestro la ventana modal
+        funcionAbrirModal();
+      } else if (juegoAjedrez.in_check()) {
         // Sonido por jaque
         document.getElementById("jaque").play();
       } else if (movimiento.captured) {
